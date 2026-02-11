@@ -1,15 +1,39 @@
-export default function Dashboard({ children }: { children?: React.ReactNode }) 
-{
- return (<div className="min-h-screen flex flex-col">
-      <header className="bg-gray-800 text-white p-4">
-        <h1 className="text-xl font-bold">Dashboard</h1>
-      </header>
+import { useEffect, useState } from "react"
+import { supabase } from "../lib/supabase"
+import DashboardLayout from "../pages/DashboardLayout"
+import UserSection from "../pages/UserSection"
+import OrganizerSection from "../pages/OrganizerSection"
+import AdminSection from "../pages/AdminSection"
 
-      <main className="flex-1 p-6">{children}</main>
+export default function Dashboard() {
+  const [role, setRole] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
-      <footer className="bg-gray-800 text-white p-4 text-center">
-        &copy; 2024 Your Company. All rights reserved.
-      </footer>
-    </div>
- );
+  useEffect(() => {
+    async function loadRole() {
+      const { data: userData } = await supabase.auth.getUser()
+      if (!userData.user) return
+
+      const { data } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", userData.user.id)
+        .single()
+
+      setRole(data?.role || "user")
+      setLoading(false)
+    }
+
+    loadRole()
+  }, [])
+
+  if (loading) return <div>Loading...</div>
+
+  return (
+    <DashboardLayout role={role}>
+      {role === "admin" && <AdminSection />}
+      {role === "organizer" && <OrganizerSection />}
+      {role === "user" && <UserSection />}
+    </DashboardLayout>
+  )
 }
