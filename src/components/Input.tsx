@@ -1,7 +1,14 @@
 
-import React from 'react';
 
-const Input = ({ label, id, ...props }) => {
+import type { InputHTMLAttributes } from 'react';
+
+type InputProps = {
+  label: string;
+  id?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
+
+
+const Input = ({ label, id, ...props }: InputProps) => {
   return (
     <div>
       <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

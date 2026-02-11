@@ -1,7 +1,12 @@
+import type { ButtonHTMLAttributes } from "react";
 
+type ButtonProps = {
+  children: React.ReactNode;
+  variant?: 'primary' | 'secondary' | 'danger';
+  className?: string;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
-
-const Button = ({ children, variant = 'primary', className = '', ...props }) => {
+const Button = ({ children, variant = 'primary', className = '', ...props }: ButtonProps) => {
   const baseClasses = 'font-bold py-2 px-4 rounded-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variantClasses = {

@@ -20,7 +20,7 @@ export default function Root() {
       <Route
         path="/dashboard/*"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute >
             <Dashboard />
           </ProtectedRoute>
         }

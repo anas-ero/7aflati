@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { MOCK_EVENTS } from "./constants";
 import type { Event, UserRegistration } from "./types";
 import { RegistrationModal } from "./components/RegistrationModal";
-import { supabase } from "./lib/supabase";
-import { signUp, signIn, signOut } from "./auth";
-import { Routes, Route, Link } from "react-router-dom";
+// import { supabase } from "./lib/supabase";
+// import { signUp, signIn, signOut } from "./auth";
+// import { Routes, Route, Link } from "react-router-dom";
 import StatsSection from "./components/StatsSection";
 import NewsletterSection from "./components/NewsLetter";
 import FeaturedEvent from "./components/FeatureCard";
