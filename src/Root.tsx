@@ -3,6 +3,7 @@ import App from "./App"
 import  Login  from "./pages/Login"
 import Dashboard from "./pages/Dashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
+import Signup from "./pages/SignUp"
 
 export default function Root() {
   return (
@@ -12,6 +13,8 @@ export default function Root() {
 
       {/* Auth */}
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      
 
       {/* Protected */}
       <Route
