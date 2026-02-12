@@ -18,9 +18,9 @@ export default function AuthLayout({
           <img
             src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop"
             alt="Event Crowd"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0  w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-indigo-900 bg-opacity-60 flex flex-col justify-end p-12 text-white">
+          <div className="absolute inset-0 bg-indigo-900 bg-opacity-60 flex flex-col justify-end  p-12 text-white">
             <h2 className="text-4xl font-bold mb-4">Event Horizon</h2>
             <p className="text-lg text-indigo-100">
               "The best way to predict the future is to create it."
