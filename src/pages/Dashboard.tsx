@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../lib/supabase"
-import DashboardLayout from "../pages/DashboardLayout"
+import DashboardLayout from "../layout/DashboardLayout"
 import UserSection from "../pages/UserSection"
 import OrganizerSection from "../pages/OrganizerSection"
 import AdminSection from "../pages/AdminSection"
