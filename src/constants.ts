@@ -9,7 +9,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Moscone Center, San Francisco',
     category: 'Tech',
     description: 'Join industry leaders to discuss the future of AI, Quantum Computing, and Blockchain. Keynote speakers from top tech giants will reveal the next big things.',
-    image: 'https://picsum.photos/800/600?random=1',
+    image_url: 'https://picsum.photos/800/600?random=1',
     price: 299,
     spots: 150
   },
@@ -21,7 +21,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Downtown Park, Austin',
     category: 'Music',
     description: 'An immersive electronic music experience featuring top global DJs, laser shows, and interactive art installations under the stars.',
-    image: 'https://picsum.photos/800/600?random=2',
+    image_url: 'https://picsum.photos/800/600?random=2',
     price: 120,
     spots: 2000
   },
@@ -33,7 +33,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'The Met, New York',
     category: 'Art',
     description: 'A black-tie event showcasing the latest in abstract expressionism. Meet the artists and acquire exclusive pieces.',
-    image: 'https://picsum.photos/800/600?random=3',
+    image_url: 'https://picsum.photos/800/600?random=3',
     price: 50,
     spots: 300
   },
@@ -45,7 +45,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'WeWork, London',
     category: 'Business',
     description: 'A comprehensive 2-day workshop for early-stage founders covering fundraising, product-market fit, and scaling teams.',
-    image: 'https://picsum.photos/800/600?random=4',
+    image_url: 'https://picsum.photos/800/600?random=4',
     price: 0, // Free event
     spots: 50
   },
@@ -57,7 +57,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Sur La Table, Chicago',
     category: 'Workshop',
     description: 'Learn to make authentic pasta from scratch with Chef Mario. Includes wine pairing and a 3-course dinner.',
-    image: 'https://picsum.photos/800/600?random=5',
+    image_url: 'https://picsum.photos/800/600?random=5',
     price: 150,
     spots: 20
   },
@@ -69,7 +69,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Convention Center, Berlin',
     category: 'Tech',
     description: 'Discover the latest innovations in renewable energy, electric vehicles, and sustainable living.',
-    image: 'https://picsum.photos/800/600?random=6',
+    image_url: 'https://picsum.photos/800/600?random=6',
     price: 75,
     spots: 500
   }
