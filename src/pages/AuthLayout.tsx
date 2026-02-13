@@ -10,7 +10,7 @@ export default function AuthLayout({
   subtitle: string
 }) {
   return (
-    <div className="flex items-center justify-center min-h-screen ">
+    <div className="flex items-center bg-brand-dark justify-center min-h-screen ">
       <div className="flex w-full max-w-5xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
 
         {/* Left */}

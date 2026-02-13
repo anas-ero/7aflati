@@ -15,7 +15,7 @@ const FeaturedEvent = ({
         <div className="grid md:grid-cols-2 gap-0">
           <div className="relative h-64 md:h-auto min-h-[400px]">
             <img
-              src={event.image}
+              src={event.image_url}
               alt={event.title}
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -55,7 +55,7 @@ const FeaturedEvent = ({
               <div className="text-sm text-slate-500">
                 Starting from{" "}
                 <span className="text-white font-bold text-lg">
-                  ${event.price}
+                  {event.price} DH
                 </span>
               </div>
             </div>

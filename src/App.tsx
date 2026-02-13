@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from "react";
-import { MOCK_EVENTS } from "./constants";
 import type { Event, UserRegistration } from "./types";
 import { RegistrationModal } from "./components/RegistrationModal";
 // import { supabase } from "./lib/supabase";
@@ -12,46 +11,65 @@ import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import MainContent from "./components/MainContent";
 import Footer from "./components/Footer";
-
+import { supabase } from "./lib/supabase";
+import { useEffect } from "react";
 const App: React.FC = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+  const [pendingEvent, setPendingEvent] = useState<Event | null>(null);
+  const [showMagicModal, setShowMagicModal] = useState(false);
 
   const filteredEvents = useMemo(() => {
-    return MOCK_EVENTS.filter((event) => {
+    return events.filter((event) => {
       const matchesSearch =
         event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         event.location.toLowerCase().includes(searchTerm.toLowerCase());
+
       const matchesCategory =
         selectedCategory === "All" || event.category === selectedCategory;
+
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
-
+  }, [events, searchTerm, selectedCategory]);
   // Select the first event as the featured one
-  const featuredEvent = MOCK_EVENTS[0];
+  const featuredEvent = events[0];
 
   const handleRegister = (event: Event) => {
     setSelectedEvent(event);
     setIsRegistrationOpen(true);
-  };
-
-  const handleRegistrationSubmit = (data: UserRegistration) => {
-    console.log("Registration Data Submitted:", data);
-  };
-
+  }
   const handleViewDetails = (event: Event) => {
     setSelectedEvent(event);
     setIsRegistrationOpen(true);
   };
-  
+
+  useEffect(() => {
+    async function fetchEvents() {
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .order("date", { ascending: true });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setEvents(data || []);
+      setLoading(false);
+    }
+
+    fetchEvents();
+  }, []);
 
   return (
     <div className="min-h-screen bg-brand-dark text-slate-200 font-sans selection:bg-brand-accent selection:text-brand-dark">
-      <Navbar/> 
-      <HeroSection  />
+      <Navbar />
+      <HeroSection />
       <StatsSection />
       <FeaturedEvent event={featuredEvent} onRegister={handleRegister} />
       <MainContent
@@ -63,20 +81,14 @@ const App: React.FC = () => {
         handleRegister={handleRegister}
         handleViewDetails={handleViewDetails}
       />
-
       <NewsletterSection />
-
-
       <Footer />
-
-      {/* Global Components
-      <AIChat isOpen={isChatOpen} onToggle={() => setIsChatOpen(!isChatOpen)} /> */}
 
       <RegistrationModal
         event={selectedEvent}
         isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
-        onSubmit={handleRegistrationSubmit}
+
       />
     </div>
   );

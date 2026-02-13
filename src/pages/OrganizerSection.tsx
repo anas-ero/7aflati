@@ -6,9 +6,10 @@ const OrganizerSection = () => {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState<number | undefined>(undefined);
   const [loading, setLoading] = useState(false);
-
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [category, setCategory] = useState("");
   async function handleCreateEvent(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -18,14 +19,38 @@ const OrganizerSection = () => {
       setLoading(false);
       return;
     }
+    let imageUrl = null;
+
+    if (imageFile) {
+      const filePath = `${userData.user.id}/${Date.now()}-${imageFile.name}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("event-images") // your bucket name
+        .upload(filePath, imageFile);
+
+      if (uploadError) {
+        alert("Image upload failed: " + uploadError.message);
+        setLoading(false);
+        return;
+      }
+      const { data } = supabase.storage
+        .from("event-images")
+        .getPublicUrl(filePath);
+
+      imageUrl = data.publicUrl;
+    }
+
     const { error } = await supabase.from("events").insert({
       title,
       description,
       date,
       location,
       price,
+      category,
       created_by: userData.user.id,
+      image_url: imageUrl,
     });
+
     setLoading(false);
     if (error) {
       alert("Error creating event: " + error.message);
@@ -42,36 +67,56 @@ const OrganizerSection = () => {
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-3 rounded bg-slate-800"
+          className="w-full p-3 rounded border"
         />
 
         <textarea
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full p-3 rounded bg-slate-800"
+          className="w-full p-3 rounded border"
         />
 
         <input
           type="datetime-local"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="w-full p-3 rounded bg-slate-800"
+          className="w-full p-3 rounded border"
         />
 
         <input
           placeholder="Location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="w-full p-3 rounded bg-slate-800"
+          className="w-full p-3 rounded border"
         />
+        <select
+          
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full p-3 rounded border"
+        >
+          <option value="">Select a category</option>
+          <option value="Tech">Tech</option>
+          <option value="Art">Art</option>
+          <option value="Music">Music</option>
+          <option value="Business">Business</option>
+          <option value="Workshop">Workshop</option>
+          <option value="Sports">Sports</option>
+        </select>
 
         <input
           type="number"
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(Number(e.target.value))}
-          className="w-full p-3 rounded bg-slate-800"
+          className="w-full p-3 rounded border"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+          className="w-full p-3 rounded border"
         />
 
         <button

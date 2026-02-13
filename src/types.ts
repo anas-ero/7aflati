@@ -4,9 +4,9 @@ export interface Event {
   date: string;
   time: string;
   location: string;
-  category: 'Tech' | 'Music' | 'Art' | 'Business' | 'Workshop';
+  category: 'Tech' | 'Music' | 'Art' | 'Business' | 'Workshop' | 'Sports';
   description: string;
-  image: string;
+  image_url: string;
   price: number;
   spots: number;
 }

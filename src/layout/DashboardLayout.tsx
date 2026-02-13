@@ -1,5 +1,7 @@
-import NavItem from "../components/NavItem"
-import SectionDivider from "../components/SectionDivider"
+import * as NavigationMenu from '@radix-ui/react-navigation-menu';
+import * as Avatar from '@radix-ui/react-avatar';
+import NavItem from "../components/NavItem";
+
 export default function DashboardLayout({
   role,
   children,
@@ -8,63 +10,95 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
-      {/* Sidebar */}
-      <aside className="w-72 bg-white/5 backdrop-blur-xl border-r border-white/10 p-6 flex flex-col">
-        {/* Logo / Header */}
-        <div className="mb-10">
-          <h2 className="text-2xl font-bold tracking-tight">7aflati</h2>
-          <p className="text-xs text-slate-400 mt-1 capitalize">
-            {role} dashboard
+    <div className="flex min-h-screen bg-[#f8fafc] text-slate-800 antialiased">
+
+      {/* ===== Sidebar ===== */}
+      <aside className="w-72 flex flex-col p-6 bg-white border-r border-slate-200 shadow-sm">
+
+        {/* Logo */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 shadow-md" />
+            <h2 className="text-xl font-semibold tracking-tight text-slate-900">
+              7aflati
+            </h2>
+          </div>
+          <p className="mt-4 text-[11px] uppercase tracking-[0.25em] text-indigo-500">
+            {role} portal
           </p>
         </div>
 
-        {/* Navigation */}
-        <nav className="space-y-2 flex-1">
-          <NavItem label="Overview" to="/dashboard" />
-          <NavItem label="My Events" to="/dashboard/events" />
-          <NavItem label="Saved Events" to="/dashboard/saved" />
+        <NavigationMenu.Root orientation="vertical" className="flex-1">
+          <NavigationMenu.List className="space-y-2 list-none">
 
-          {role === "organizer" && (
-            <>
-              <SectionDivider label="Organizer" />
-              <NavItem label="Create Event" to="/dashboard/create" />
-              <NavItem label="Analytics" to="/dashboard/analytics" />
-            </>
-          )}
+            <NavigationMenu.Item>
+              <NavItem label="Overview" to="/dashboard" />
+            </NavigationMenu.Item>
 
-          {role === "admin" && (
-            <>
-              <SectionDivider label="Admin" />
-              <NavItem label="Platform Stats" to="/dashboard/stats" />
-              <NavItem label="Approve Organizers" to="/dashboard/approve" />
-            </>
-          )}
-        </nav>
+            <NavigationMenu.Item>
+              <NavItem label="My Events" to="/dashboard/events" />
+            </NavigationMenu.Item>
 
-        {/* Footer */}
-        <div className="pt-6 border-t border-white/10 text-xs text-slate-400">
-          © {new Date().getFullYear()} 7aflati
+            <NavigationMenu.Item>
+              <NavItem label="Saved Events" to="/dashboard/saved" />
+            </NavigationMenu.Item>
+
+            {role === "organizer" && (
+              <div className="mt-10 space-y-2">
+                <p className="text-[11px] uppercase tracking-widest text-slate-400 px-2">
+                  Management
+                </p>
+                <NavigationMenu.Item>
+                  <NavItem label="Create Event" to="/dashboard/create" />
+                </NavigationMenu.Item>
+                <NavigationMenu.Item>
+                  <NavItem label="Analytics" to="/dashboard/analytics" />
+                </NavigationMenu.Item>
+              </div>
+            )}
+          </NavigationMenu.List>
+        </NavigationMenu.Root>
+
+        <div className="pt-6 mt-6 border-t border-slate-200 text-[11px] text-slate-400">
+          PRO PLAN • © 2026
         </div>
       </aside>
 
-      {/* Main Area */}
+      {/* ===== Main Area ===== */}
       <div className="flex-1 flex flex-col">
+
         {/* Topbar */}
-        <header className="h-20 px-10 flex items-center justify-between border-b border-white/10 bg-white/5 backdrop-blur-xl">
-          <h1 className="text-xl font-semibold">Dashboard</h1>
+        <header className="h-16 px-10 flex items-center justify-between bg-white border-b border-slate-200">
 
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-slate-400 capitalize">{role}</div>
+          <h1 className="text-sm font-semibold text-slate-700">
+            Dashboard
+          </h1>
 
-            <div className="w-10 h-10 rounded-full bg-brand-accent/20 flex items-center justify-center font-bold">
-              U
+          <div className="flex items-center gap-6">
+            <div className="hidden sm:block text-right">
+              <p className="text-sm font-medium text-slate-900">User Name</p>
+              <p className="text-xs text-slate-500">Premium Account</p>
             </div>
+
+            <Avatar.Root className="h-10 w-10 rounded-xl border border-slate-200 bg-slate-100 overflow-hidden hover:shadow-md transition">
+              <Avatar.Image
+                className="h-full w-full object-cover"
+                src="https://github.com/shadcn.png"
+              />
+              <Avatar.Fallback className="text-xs font-semibold text-indigo-600">
+                UN
+              </Avatar.Fallback>
+            </Avatar.Root>
           </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-10 overflow-y-auto">{children}</main>
+        <main className="flex-1 p-10 bg-[#f1f5f9]">
+          <div className="max-w-6xl mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-10">
+            {children}
+          </div>
+        </main>
+
       </div>
     </div>
   );

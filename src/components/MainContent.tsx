@@ -51,7 +51,6 @@ const MainContent = ({
               <EventCard
                 key={event.id}
                 event={event}
-                onRegister={handleRegister}
                 onViewDetails={handleViewDetails}
               />
             ))}
