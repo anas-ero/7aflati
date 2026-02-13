@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import type { Event } from "../types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { CheckCircle2Icon, InfoIcon } from "lucide-react";
+import { CheckCircle2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { X, Calendar, MapPin, Check } from "./Icons";
+import { X, Calendar, MapPin} from "./Icons";
 import { Link } from "react-router";
 interface RegistrationModalProps {
   event: Event | null;

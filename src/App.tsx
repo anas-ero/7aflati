@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import type { Event, UserRegistration } from "./types";
+import type { Event } from "./types";
 import { RegistrationModal } from "./components/RegistrationModal";
 // import { supabase } from "./lib/supabase";
 // import { signUp, signIn, signOut } from "./auth";
@@ -15,13 +15,10 @@ import { supabase } from "./lib/supabase";
 import { useEffect } from "react";
 const App: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
-  const [pendingEvent, setPendingEvent] = useState<Event | null>(null);
-  const [showMagicModal, setShowMagicModal] = useState(false);
 
   const filteredEvents = useMemo(() => {
     return events.filter((event) => {
@@ -41,7 +38,7 @@ const App: React.FC = () => {
   const handleRegister = (event: Event) => {
     setSelectedEvent(event);
     setIsRegistrationOpen(true);
-  }
+  };
   const handleViewDetails = (event: Event) => {
     setSelectedEvent(event);
     setIsRegistrationOpen(true);
@@ -60,7 +57,6 @@ const App: React.FC = () => {
       }
 
       setEvents(data || []);
-      setLoading(false);
     }
 
     fetchEvents();
@@ -88,7 +84,6 @@ const App: React.FC = () => {
         event={selectedEvent}
         isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
-
       />
     </div>
   );

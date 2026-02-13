@@ -19,7 +19,6 @@ const MainContent = ({
   selectedCategory,
   setSelectedCategory,
   filteredEvents,
-  handleRegister,
   handleViewDetails,
 }: MainContentProps) => {
   return (
