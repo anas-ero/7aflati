@@ -1,133 +1,47 @@
-import { supabase } from "../lib/supabase";
-import { useState } from "react";
+
+import { Routes, Route } from "react-router-dom";
+import CreateEvent from "./CreateEvent";
+import OrganizerEvent from "./OrganizerEvent";
+import OrganizerEventDetail from "./OrganizerEventDetail";
 
 const OrganizerSection = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [location, setLocation] = useState("");
-  const [price, setPrice] = useState<number | undefined>(undefined);
-  const [loading, setLoading] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [category, setCategory] = useState("");
-  async function handleCreateEvent(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    const { data: userData } = await supabase.auth.getUser();
-    if (!userData?.user) {
-      alert("You must be logged in to create an event.");
-      setLoading(false);
-      return;
-    }
-    let imageUrl = null;
-
-    if (imageFile) {
-      const filePath = `${userData.user.id}/${Date.now()}-${imageFile.name}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("event-images") // your bucket name
-        .upload(filePath, imageFile);
-
-      if (uploadError) {
-        alert("Image upload failed: " + uploadError.message);
-        setLoading(false);
-        return;
-      }
-      const { data } = supabase.storage
-        .from("event-images")
-        .getPublicUrl(filePath);
-
-      imageUrl = data.publicUrl;
-    }
-
-    const { error } = await supabase.from("events").insert({
-      title,
-      description,
-      date,
-      location,
-      price,
-      category,
-      created_by: userData.user.id,
-      image_url: imageUrl,
-    });
-
-    setLoading(false);
-    if (error) {
-      alert("Error creating event: " + error.message);
-      return;
-    }
-    alert("Event created !");
-  }
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6">Create Event</h2>
-
-      <form onSubmit={handleCreateEvent} className="space-y-4">
-        <input
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-3 rounded border"
-        />
-
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full p-3 rounded border"
-        />
-
-        <input
-          type="datetime-local"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="w-full p-3 rounded border"
-        />
-
-        <input
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-full p-3 rounded border"
-        />
-        <select
-          
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full p-3 rounded border"
-        >
-          <option value="">Select a category</option>
-          <option value="Tech">Tech</option>
-          <option value="Art">Art</option>
-          <option value="Music">Music</option>
-          <option value="Business">Business</option>
-          <option value="Workshop">Workshop</option>
-          <option value="Sports">Sports</option>
-        </select>
-
-        <input
-          type="number"
-          placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
-          className="w-full p-3 rounded border"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-          className="w-full p-3 rounded border"
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-6 py-3 bg-brand-accent text-black rounded-xl"
-        >
-          {loading ? "Creating..." : "Create Event"}
-        </button>
-      </form>
-    </div>
+    <Routes>
+      <Route path="/" element={
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold text-slate-800">Organizer Overview</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Summary Cards */}
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <h3 className="text-sm font-medium text-slate-500">Total Events</h3>
+              <p className="text-3xl font-bold text-slate-900 mt-2"></p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <h3 className="text-sm font-medium text-slate-500">Total Sales</h3>
+              <p className="text-3xl font-bold text-slate-900 mt-2"></p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <h3 className="text-sm font-medium text-slate-500">Upcoming</h3>
+              <p className="text-3xl font-bold text-slate-900 mt-2"></p>
+            </div>
+          </div>
+        </div>
+      } />
+      <Route path="create" element={<CreateEvent />} />
+      <Route path="analytics" element={
+        <div className="text-center py-20">
+          <h2 className="text-xl font-semibold text-slate-600">Analytics Coming Soon</h2>
+        </div>
+      } />
+      <Route path="events" element={
+        <div className="py-10">
+          <h1 className="text-2xl font-bold text-slate-800 text-center pb-10">Event</h1>
+          <OrganizerEvent />
+        </div>
+      } />
+      <Route path="events/:id" element={<OrganizerEventDetail />} />
+    </Routes>
   );
 };
+
 export default OrganizerSection;

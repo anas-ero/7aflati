@@ -1,6 +1,22 @@
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-import * as Avatar from '@radix-ui/react-avatar';
+import { supabase } from "@/lib/supabase";
 import NavItem from "../components/NavItem";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  BadgeCheckIcon,
+  BellIcon,
+  CreditCardIcon,
+  LogOutIcon,
+} from "lucide-react"
 
 export default function DashboardLayout({
   role,
@@ -10,15 +26,17 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
+
+
     <div className="flex min-h-screen bg-[#f8fafc] text-slate-800 antialiased">
 
-      {/* ===== Sidebar ===== */}
+      {/*Sidebar*/}
       <aside className="w-72 flex flex-col p-6 bg-white border-r border-slate-200 shadow-sm">
 
         {/* Logo */}
         <div className="mb-12">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 shadow-md" />
+            <div className="h-8 w-8 rounded-xl bg-linear-to-tr from-indigo-500 to-cyan-400 shadow-md" />
             <h2 className="text-xl font-semibold tracking-tight text-slate-900">
               7aflati
             </h2>
@@ -76,19 +94,43 @@ export default function DashboardLayout({
 
           <div className="flex items-center gap-6">
             <div className="hidden sm:block text-right">
-              <p className="text-sm font-medium text-slate-900">User Name</p>
-              <p className="text-xs text-slate-500">Premium Account</p>
+              <p className="text-sm font-medium text-slate-900"></p>
+
             </div>
 
-            <Avatar.Root className="h-10 w-10 rounded-xl border border-slate-200 bg-slate-100 overflow-hidden hover:shadow-md transition">
-              <Avatar.Image
-                className="h-full w-full object-cover"
-                src="https://github.com/shadcn.png"
-              />
-              <Avatar.Fallback className="text-xs font-semibold text-indigo-600">
-                UN
-              </Avatar.Fallback>
-            </Avatar.Root>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <Avatar>
+                    <AvatarFallback>OR</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <BadgeCheckIcon />
+                    Account
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <CreditCardIcon />
+                    Billing
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <BellIcon />
+                    Notifications
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-500 cursor-pointer" onClick={async () => {
+                  await supabase.auth.signOut();
+                  window.location.href = '/login';
+                }}>
+                  <LogOutIcon color="red" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
 
