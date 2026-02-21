@@ -7,7 +7,6 @@ import AdminSection from "../pages/AdminSection"
 
 export default function Dashboard() {
   const [role, setRole] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function loadRole() {
@@ -21,13 +20,12 @@ export default function Dashboard() {
         .single()
 
       setRole(data?.role || "user")
-      setLoading(false)
     }
 
     loadRole()
   }, [])
 
-  if (loading) return <div>Loading...</div>
+
 
   return (
     <DashboardLayout role={role}>

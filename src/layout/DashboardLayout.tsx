@@ -57,9 +57,9 @@ export default function DashboardLayout({
               <NavItem label="My Events" to="/dashboard/events" />
             </NavigationMenu.Item>
 
-            <NavigationMenu.Item>
+            {role === "user" && <NavigationMenu.Item>
               <NavItem label="Saved Events" to="/dashboard/saved" />
-            </NavigationMenu.Item>
+            </NavigationMenu.Item>}
 
             {role === "organizer" && (
               <div className="mt-10 space-y-2">
