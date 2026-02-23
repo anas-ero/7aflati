@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
-import { Trash2 } from "lucide-react";
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 
@@ -20,8 +19,8 @@ const EventDetails = ({ eventId }: { eventId: string }) => {
     }, [])
     return (
         <div>
-            <div className="relative mx-auto w-full max-w-sm pt-0">
-                <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+            <div className="">
+                <div/>
                 <Card>
                     <img
                         src={event?.image_url}

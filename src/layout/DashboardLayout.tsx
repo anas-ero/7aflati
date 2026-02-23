@@ -36,7 +36,6 @@ export default function DashboardLayout({
         {/* Logo */}
         <div className="mb-12">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-linear-to-tr from-indigo-500 to-cyan-400 shadow-md" />
             <h2 className="text-xl font-semibold tracking-tight text-slate-900">
               7aflati
             </h2>
@@ -46,20 +45,22 @@ export default function DashboardLayout({
           </p>
         </div>
 
+
         <NavigationMenu.Root orientation="vertical" className="flex-1">
           <NavigationMenu.List className="space-y-2 list-none">
-
             <NavigationMenu.Item>
-              <NavItem label="Overview" to="/dashboard" />
+              <NavItem label="Overview" to="/dashboard" end />
             </NavigationMenu.Item>
 
             <NavigationMenu.Item>
               <NavItem label="My Events" to="/dashboard/events" />
             </NavigationMenu.Item>
 
-            {role === "user" && <NavigationMenu.Item>
-              <NavItem label="Saved Events" to="/dashboard/saved" />
-            </NavigationMenu.Item>}
+            {role === "user" && (
+              <NavigationMenu.Item>
+                <NavItem label="Saved Events" to="/dashboard/saved" />
+              </NavigationMenu.Item>
+            )}
 
             {role === "organizer" && (
               <div className="mt-10 space-y-2">
@@ -76,6 +77,7 @@ export default function DashboardLayout({
             )}
           </NavigationMenu.List>
         </NavigationMenu.Root>
+
 
         <div className="pt-6 mt-6 border-t border-slate-200 text-[11px] text-slate-400">
           PRO PLAN • © 2026

@@ -14,10 +14,10 @@ const SavedEvents = () => {
         fetchSavedEvents();
     }, []);
     return (
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {savedEvents.map((event) => {
                 return (
-                    <div key={event.id} className="p-4 border rounded-lg shadow-sm mb-4">
+                    <div className="col-span-1" key={event.id}>
                         <EventDetails eventId={event.event_id} />
                     </div>
                 )
