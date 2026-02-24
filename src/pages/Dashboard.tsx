@@ -5,6 +5,9 @@ import UserSection from "../pages/UserSection"
 import OrganizerSection from "../pages/OrganizerSection"
 import AdminSection from "../pages/AdminSection"
 
+import { Routes, Route } from "react-router-dom"
+import Account from "./Account"
+
 export default function Dashboard() {
   const [role, setRole] = useState<string | null>(null)
 
@@ -25,13 +28,18 @@ export default function Dashboard() {
     loadRole()
   }, [])
 
-
-
   return (
     <DashboardLayout role={role}>
-      {role === "admin" && <AdminSection />}
-      {role === "organizer" && <OrganizerSection />}
-      {role === "user" && <UserSection />}
+      <Routes>
+        <Route path="/account" element={<Account />} />
+        <Route path="/*" element={
+          <>
+            {role === "admin" && <AdminSection />}
+            {role === "organizer" && <OrganizerSection />}
+            {role === "user" && <UserSection />}
+          </>
+        } />
+      </Routes>
     </DashboardLayout>
   )
 }

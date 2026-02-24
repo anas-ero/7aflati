@@ -14,15 +14,15 @@ const OrganizerSection = () => {
             {/* Summary Cards */}
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
               <h3 className="text-sm font-medium text-slate-500">Total Events</h3>
-              <p className="text-3xl font-bold text-slate-900 mt-2"></p>
+              <p className="text-3xl font-bold text-slate-900 mt-2">TBD</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
               <h3 className="text-sm font-medium text-slate-500">Total Sales</h3>
-              <p className="text-3xl font-bold text-slate-900 mt-2"></p>
+              <p className="text-3xl font-bold text-slate-900 mt-2">TBD</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
               <h3 className="text-sm font-medium text-slate-500">Upcoming</h3>
-              <p className="text-3xl font-bold text-slate-900 mt-2"></p>
+              <p className="text-3xl font-bold text-slate-900 mt-2">TBD</p>
             </div>
           </div>
         </div>

@@ -13,10 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {
   BadgeCheckIcon,
-  BellIcon,
-  CreditCardIcon,
   LogOutIcon,
 } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 export default function DashboardLayout({
   role,
@@ -25,6 +24,8 @@ export default function DashboardLayout({
   role: string | null;
   children: React.ReactNode;
 }) {
+  const navigate = useNavigate();
+
   return (
 
 
@@ -52,9 +53,11 @@ export default function DashboardLayout({
               <NavItem label="Overview" to="/dashboard" end />
             </NavigationMenu.Item>
 
-            <NavigationMenu.Item>
-              <NavItem label="My Events" to="/dashboard/events" />
-            </NavigationMenu.Item>
+            {role === "organizer" && (
+              <NavigationMenu.Item>
+                <NavItem label="My Events" to="/dashboard/events" />
+              </NavigationMenu.Item>
+            )}
 
             {role === "user" && (
               <NavigationMenu.Item>
@@ -79,27 +82,21 @@ export default function DashboardLayout({
         </NavigationMenu.Root>
 
 
-        <div className="pt-6 mt-6 border-t border-slate-200 text-[11px] text-slate-400">
-          PRO PLAN • © 2026
-        </div>
       </aside>
 
       {/* ===== Main Area ===== */}
       <div className="flex-1 flex flex-col">
-
         {/* Topbar */}
         <header className="h-16 px-10 flex items-center justify-between bg-white border-b border-slate-200">
 
           <h1 className="text-sm font-semibold text-slate-700">
             Dashboard
           </h1>
-
           <div className="flex items-center gap-6">
             <div className="hidden sm:block text-right">
               <p className="text-sm font-medium text-slate-900"></p>
 
             </div>
-
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
@@ -110,17 +107,9 @@ export default function DashboardLayout({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/dashboard/account')} className="cursor-pointer">
                     <BadgeCheckIcon />
                     Account
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CreditCardIcon />
-                    Billing
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <BellIcon />
-                    Notifications
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
@@ -135,14 +124,12 @@ export default function DashboardLayout({
             </DropdownMenu>
           </div>
         </header>
-
         {/* Content */}
         <main className="flex-1 p-10 bg-[#f1f5f9]">
           <div className="max-w-6xl mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-10">
             {children}
           </div>
         </main>
-
       </div>
     </div>
   );
