@@ -1,9 +1,10 @@
 import { PDFDocument } from "pdf-lib";
+import QRCode from "qrcode";
 import { supabase } from "./supabase";
 
 export default async function generatePDF(registrationId: string) {
   try {
-    // 1. Fetch data (Joining registration and events)
+    // fetching data
     const { data: reg, error } = await supabase
       .from("registrations")
       .select("*, events(title, date)")
@@ -16,38 +17,55 @@ export default async function generatePDF(registrationId: string) {
       return;
     }
 
-    // Fetch user profile separately to avoid foreign key relation errors
     let fullName = "Guest";
-
-    // First, check the currently authenticated user's metadata since full_name is often stored there on signup
+    // check the logged in user by searching the metadata in our supabase table since the full_name is stored there on signup
     const { data: userData } = await supabase.auth.getUser();
+    // if the user is logged in  get the full name from the metadata
     if (userData?.user?.user_metadata?.full_name) {
       fullName = userData.user.user_metadata.full_name;
     } else if (reg.user_id) {
-      // Fallback: Check the profiles table
+      // another solution : checking the table of profiles incase we didnt find any data in the metadata
       const { data: profile } = await supabase
         .from("profiles")
         .select("full_name")
         .eq("id", reg.user_id)
         .single();
+      // if the profile is found, we change our variable to the full name we founf.
       if (profile?.full_name) {
         fullName = profile.full_name;
       }
     }
 
-    // 2. Create PDF
+    // 2. create our pdf receipe
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([600, 400]);
 
-    page.drawText(`OFFICIAL TICKET`, { x: 50, y: 350, size: 28 });
+    // generate the qr code
+    const qrDataUrl = await QRCode.toDataURL(registrationId);
+
+    const qrBase64 = qrDataUrl.split(",")[1];
+
+    // include the qr in the pdf
+    const qrImage = await pdfDoc.embedPng(qrBase64);
+
+    // put the qr in the top of the pdf
+    const qrDims = qrImage.scale(0.5); 
+    page.drawImage(qrImage, {
+      x: 50,
+      y: page.getHeight() - qrDims.height - 30, 
+      width: qrDims.width,
+      height: qrDims.height,
+    });
+
+    page.drawText(`OFFICIAL TICKET`, { x: 50, y: 250, size: 28 });
     page.drawText(`Event: ${reg.events?.title || "Event"}`, {
       x: 50,
-      y: 300,
+      y: 200,
       size: 20,
     });
     page.drawText(`Attendee: ${fullName}`, {
       x: 50,
-      y: 260,
+      y: 160,
       size: 18,
     });
 
@@ -55,8 +73,8 @@ export default async function generatePDF(registrationId: string) {
     const dateStr = reg.events?.date
       ? new Date(reg.events.date).toLocaleDateString()
       : "TBA";
-    page.drawText(`Date: ${dateStr}`, { x: 50, y: 220, size: 15 });
-    page.drawText(`Ticket ID: ${registrationId}`, { x: 50, y: 180, size: 12 });
+    page.drawText(`Date: ${dateStr}`, { x: 50, y: 120, size: 15 });
+    page.drawText(`Ticket ID: ${registrationId}`, { x: 50, y: 80, size: 12 });
 
     const pdfBytes = await pdfDoc.save();
 

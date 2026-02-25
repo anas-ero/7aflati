@@ -45,7 +45,6 @@ export default function OrganizerEventDetail() {
             }
             setLoading(false);
         }
-
         fetchEventDetails();
     }, [id, navigate]);
 
@@ -65,7 +64,7 @@ export default function OrganizerEventDetail() {
             const filePath = `${userData.user.id}/${Date.now()}-${imageFile.name}`;
 
             const { error: uploadError } = await supabase.storage
-                .from("event-images") // your bucket name
+                .from("event-images") 
                 .upload(filePath, imageFile);
 
             if (uploadError) {
@@ -76,7 +75,6 @@ export default function OrganizerEventDetail() {
             const { data } = supabase.storage
                 .from("event-images")
                 .getPublicUrl(filePath);
-
             imageUrl = data.publicUrl;
         }
 
@@ -211,7 +209,6 @@ export default function OrganizerEventDetail() {
                     <Button
                         type="submit"
                         className="w-2/3 py-4 h-12 "
-
                     >
                         {updating ? "Updating Event..." : "Update Event"}
                     </Button>

@@ -13,8 +13,9 @@ export default function OrganizerEvent() {
 
     useEffect(() => {
         async function fetchEvents() {
+            // get the curretn user
             const { data: { user } } = await supabase.auth.getUser();
-
+            // get the current events created by this specific user depends on the id.
             if (user) {
                 const { data, error } = await supabase
                     .from('events')
@@ -37,7 +38,11 @@ export default function OrganizerEvent() {
             .eq('id', id);
 
         if (!error) {
+            // update the state to remove the deleted event
             setEvents(events?.filter((event) => event.id !== id) || null);
+        }
+        else{
+            alert("Error deleting event");
         }
     }
 
@@ -66,7 +71,6 @@ export default function OrganizerEvent() {
                         </CardHeader>
                         <CardFooter className="flex gap-2">
                             <Button className="w-3/4 cursor-pointer" onClick={() => navigate(`/dashboard/events/${event.id}`)} >View Event</Button>
-
                             <Button variant="outline" size="icon" className="text-destructive cursor-pointer w-1/4 " onClick={() => handleDelete(event.id)}>
                                 <Trash2 className="h-5 w-5" />
                             </Button>
