@@ -41,7 +41,7 @@ export default function OrganizerEvent() {
             // update the state to remove the deleted event
             setEvents(events?.filter((event) => event.id !== id) || null);
         }
-        else{
+        else {
             alert("Error deleting event");
         }
     }
@@ -53,30 +53,36 @@ export default function OrganizerEvent() {
     return (
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {events?.map((event) => (
-                    <Card className="relative mx-auto w-full max-w-sm pt-0" key={event.id}>
-                        <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
-                        <img
-                            src={event.image_url}
-                            alt="Event cover"
-                            className="relative z-20 aspect-video w-full object-cover"
-                        />
-                        <CardHeader>
-                            <CardAction>
-                            </CardAction>
-                            <CardTitle>{event.title}</CardTitle>
-                            <CardDescription>
-                                Description : {event.description}
-                            </CardDescription>
-                        </CardHeader>
-                        <CardFooter className="flex gap-2">
-                            <Button className="w-3/4 cursor-pointer" onClick={() => navigate(`/dashboard/events/${event.id}`)} >View Event</Button>
-                            <Button variant="outline" size="icon" className="text-destructive cursor-pointer w-1/4 " onClick={() => handleDelete(event.id)}>
-                                <Trash2 className="h-5 w-5" />
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                ))}
+                {events?.length === 0 ? (
+                    <div className="col-span-full text-center py-6">
+                        <p className="text-lg text-slate-500">No events found</p>
+                    </div>
+                ) : (
+                    events?.map((event) => (
+                        <Card className="relative mx-auto w-full max-w-sm pt-0" key={event.id}>
+                            <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+                            <img
+                                src={event.image_url}
+                                alt="Event cover"
+                                className="relative z-20 aspect-video w-full object-cover"
+                            />
+                            <CardHeader>
+                                <CardAction>
+                                </CardAction>
+                                <CardTitle>{event.title}</CardTitle>
+                                <CardDescription>
+                                    Description : {event.description}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardFooter className="flex gap-2">
+                                <Button className="w-3/4 cursor-pointer" onClick={() => navigate(`/dashboard/events/${event.id}`)} >View Event</Button>
+                                <Button variant="outline" size="icon" className="text-destructive cursor-pointer w-1/4 " onClick={() => handleDelete(event.id)}>
+                                    <Trash2 className="h-5 w-5" />
+                                </Button>
+                            </CardFooter>
+                        </Card>
+
+                    )))}
             </div>
         </div>
     );
