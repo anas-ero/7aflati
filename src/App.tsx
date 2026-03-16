@@ -1,9 +1,6 @@
 import React, { useState, useMemo } from "react";
 import type { Event } from "./types";
 import { RegistrationModal } from "./components/RegistrationModal";
-// import { supabase } from "./lib/supabase";
-// import { signUp, signIn, signOut } from "./auth";
-// import { Routes, Route, Link } from "react-router-dom";
 import StatsSection from "./components/StatsSection";
 import NewsletterSection from "./components/NewsLetter";
 import FeaturedEvent from "./components/FeatureCard";
@@ -13,12 +10,14 @@ import MainContent from "./components/MainContent";
 import Footer from "./components/Footer";
 import { supabase } from "./lib/supabase";
 import { useEffect } from "react";
+import { AIChat } from "./components/AIChat";
 const App: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const filteredEvents = useMemo(() => {
     return events.filter((event) => {
@@ -84,6 +83,10 @@ const App: React.FC = () => {
         event={selectedEvent}
         isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
+      />
+      <AIChat
+        isOpen={isChatOpen}
+        onToggle={() => setIsChatOpen(!isChatOpen)}
       />
     </div>
   );

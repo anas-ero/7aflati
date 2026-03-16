@@ -1,10 +1,12 @@
+import type { ReactNode } from "react";
+
 export interface Event {
   id: string;
   title: string;
   date: string;
   time: string;
   location: string;
-  category: 'Tech' | 'Music' | 'Art' | 'Business' | 'Workshop' | 'Sports';
+  category: "Tech" | "Music" | "Art" | "Business" | "Workshop" | "Sports";
   description: string;
   image_url: string;
   price: number;
@@ -14,18 +16,18 @@ export interface Event {
 export interface UserRegistration {
   name: string;
   email: string;
-  ticketType: 'General' | 'VIP';
+  ticketType: "General" | "VIP";
   eventId: string;
 }
 
 export interface ChatMessage {
   id: string;
-  role: 'user' | 'model';
-  text: string;
+  role: "user" | "model";
+  text: string | ReactNode;
   isThinking?: boolean;
 }
 
-export type ViewState = 'HOME' | 'EVENT_DETAILS' | 'SUCCESS';
+export type ViewState = "HOME" | "EVENT_DETAILS" | "SUCCESS";
 
 // Reusable icons props
 export interface IconProps {
